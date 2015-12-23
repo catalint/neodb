@@ -2,7 +2,7 @@
 
 What does this do?
 =======================================
-Creates a temporary neo4j db listening on `http://localhost:port` via simple calls from within apps using node.js >= 4
+Creates a temporary neo4j db listening on `http://localhost:port`
 
 Neo4j 2.3.1
 ----------
