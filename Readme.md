@@ -9,6 +9,7 @@ Creates a temporary neo4j db listening on `http://localhost:port` via simple cal
 Neo4j 2.3.1
 ----------
 This module includes binaries to start neo4j, you’ll need a Java Virtual Machine installed on your computer.
+
 Usually you already have Java installed, if not we recommend that you install [OpenJDK 8 (preferred) or 7](http://openjdk.java.net/) or [Oracle Java 8 (preferred) or 7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
 Supported OS
