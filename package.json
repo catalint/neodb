@@ -1,0 +1,13 @@
+{
+  "name": "neodb",
+  "version": "1.0.0",
+  "description": "Creates a new temporary neo4j db for testing purposes",
+  "main": "src/index.js",
+  "private": "true",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Catalin Tanasescu <catalint@gmail.com>",
+  "engine": "node >= 4.0.0",
+  "license": "GNU"
+}
