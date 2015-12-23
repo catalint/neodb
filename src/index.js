@@ -56,8 +56,9 @@ class NeoTestDBPrivate {
             this.instance = require('child_process').spawn(this.getServerBin(), ['console'])
             this.instance.on('close', this.instanceClosed.bind(this))
             this.instance.stdout.on('data', this.instanceData.bind(this))
-            this.instance.stderr.on('data', this.instanceError.bind(this));
-            this.instance.stdin.end();
+            this.instance.stderr.on('data', this.instanceError.bind(this))
+            this.instance.stdin.end()
+            process.on('exit', this.stop.bind(this))
         })
 
     }
