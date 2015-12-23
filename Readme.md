@@ -2,9 +2,16 @@
 
 NeoDB
 
-Starts a local Neo4J DB listening on `http://localhost:port`
+Creates a temporary neo4j db listening on `http://localhost:port`
 
-Version used is 2.3.1 , works on linux / osx only
+*Support*
+
+`neo4j` = 2.3.1
+
+`nodejs` >= 4
+
+`OS`: osx, linux
+
 
 It always starts with an empty database , all data is lost when closing
 
