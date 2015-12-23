@@ -53,7 +53,6 @@ class NeoTestDBPrivate {
         return new Promise((resolve, reject)=> {
             this.resolve = resolve
             this.cleanup()
-            console.log(this.getServerBin())
             this.instance = require('child_process').spawn(this.getServerBin(), ['console'])
             this.instance.on('close', this.instanceClosed.bind(this))
             this.instance.stdout.on('data', this.instanceData.bind(this))
@@ -80,21 +79,20 @@ class NeoTestDBPrivate {
 
     instanceError(message) {
         message = data.toString()
-        //console.log(':!', message)
         throw message
     }
 
     instanceData(message) {
         message = message.toString()
-        //console.log(':', message)
         if (message.indexOf(' ERROR ') !== -1) {
             throw message
         }
+        let data = {pid: this.instance.pid, port: this.port, url: this.getURL()}
         if (message.indexOf("Remote interface ready and available") !== -1) {
-            this.resolve({pid: this.instance.pid, port: this.port})
+            this.resolve(data)
         }
         if (message.indexOf("Successfully shutdown database") !== -1) {
-            this.resolve({pid: this.instance.pid, port: this.port})
+            this.resolve(data)
         }
     }
 
