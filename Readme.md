@@ -2,16 +2,24 @@
 
 [![neo4j.com](http://neo4j.com/wp-content/themes/neo4jweb/assets/images/neo4j-logo-2015.png)](http://neo4j.com) [![Kalon.ro](http://kalon.ro/images/kalon-logo.svg)](http://kalon.ro)
 
-Creates a temporary neo4j db listening on `http://localhost:port`
+What does this do?
+=======================================
+Creates a temporary neo4j db listening on `http://localhost:port` via simple calls from within apps using node.js >= 4
 
-`neo4j`  2.3.1
+Neo4j 2.3.1
+=======================================
+This module includes binaries to start neo4j
 
-`nodejs >=` 4
+Supported OS
+=======================================
+osx, linux
 
-`OS`  osx, linux
-
+Install
+=======================================
 `npm install --save neodb`
 
+Usage
+=======================================
 ```js
 "use strict"
 
@@ -27,3 +35,8 @@ testDB.start()
 ```
 
 It always starts with an empty database , all data is lost when closing.
+
+Learn more
+----------
+
+* Neo4j Home: http://neo4j.com/
