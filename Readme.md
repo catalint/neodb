@@ -7,19 +7,20 @@ What does this do?
 Creates a temporary neo4j db listening on `http://localhost:port` via simple calls from within apps using node.js >= 4
 
 Neo4j 2.3.1
-=======================================
-This module includes binaries to start neo4j
+----------
+This module includes binaries to start neo4j, you’ll need a Java Virtual Machine installed on your computer.
+Usually you already have Java installed, if not we recommend that you install [OpenJDK 8 (preferred) or 7](http://openjdk.java.net/) or [Oracle Java 8 (preferred) or 7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
 Supported OS
-=======================================
+----------
 osx, linux
 
 Install
-=======================================
-`npm install --save neodb`
+----------
+`npm install --save-dev neodb`
 
 Usage
-=======================================
+----------
 ```js
 "use strict"
 
