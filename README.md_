@@ -23,7 +23,7 @@ Usage
 ```js
 "use strict"
 
-let NeoTestDB = require('../src')
+let NeoTestDB = require('neodb')
 
 let testDB = new NeoTestDB(6363)
 
