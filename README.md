@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/neodb.svg)](https://www.npmjs.com/package/neodb)
+[![npm](https://img.shields.io/npm/v/neodb.svg)](https://www.npmjs.com/package/neodb) [![node](https://img.shields.io/node/v/neodb.svg)]()
 
 What does this do?
 =======================================
