@@ -4,7 +4,7 @@
   "description": "Creates a temporary neo4j db listening on :port",
   "main": "src/index.js",
   "scripts": {
-    "test": "jshint src/**/* && node test"
+    "test": "jshint src/* && node test"
   },
   "author": "Catalin Tanasescu <catalint@gmail.com>",
   "engines": {
