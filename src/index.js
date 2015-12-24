@@ -9,7 +9,7 @@ class NeoTestDBPrivate {
             throw new Error(`trying to delete outside safe path ${safePath}`)
         }
         if (fs.existsSync(dirnName)) {
-            fs.readdirSync(dirnName).forEach((file, index) => {
+            fs.readdirSync(dirnName).forEach((file) => {
                 var curPath = dirnName + "/" + file;
                 if (fs.lstatSync(curPath).isDirectory()) { // recurse
                     this.deleteFolderRecursive(curPath);
@@ -50,7 +50,7 @@ class NeoTestDBPrivate {
     }
 
     start() {
-        return new Promise((resolve, reject)=> {
+        return new Promise((resolve)=> {
             this.resolve = resolve
             this.cleanup()
             this.instance = require('child_process').spawn(this.getServerBin(), ['console'])
@@ -72,14 +72,14 @@ class NeoTestDBPrivate {
     }
 
     stop() {
-        return new Promise((resolve, reject)=> {
+        return new Promise((resolve)=> {
             this.resolve = resolve
             this.instance.kill('SIGHUP')
         })
     }
 
     instanceError(message) {
-        message = data.toString()
+        message = message.toString()
         throw message
     }
 
@@ -97,7 +97,7 @@ class NeoTestDBPrivate {
         }
     }
 
-    instanceClosed(code, signal) {
+    instanceClosed() {
         this.cleanup()
     }
 

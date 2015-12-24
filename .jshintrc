@@ -1,0 +1,7 @@
+{
+  "node": true,
+  "esnext": true, //es6
+  "undef": true,
+  "unused": true,
+  "asi": true
+}
