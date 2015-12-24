@@ -1,8 +1,8 @@
 "use strict"
 
-let NeoTestBD = require('../src')
+let NeoTestDB = require('../src')
 
-let testDB = new NeoTestBD(6363)
+let testDB = new NeoTestDB(6363)
 
 testDB.start()
     .then(function (data) {

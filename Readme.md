@@ -23,9 +23,9 @@ Usage
 ```js
 "use strict"
 
-let NeoTestBD = require('neodb')
+let NeoTestDB = require('../src')
 
-let testDB = new NeoTestBD(6363)
+let testDB = new NeoTestDB(6363)
 
 testDB.start()
     .then(function (data) {
@@ -43,7 +43,6 @@ testDB.start()
     .catch(function (e) {
         console.error(e)
     })
-
 ```
 
 It always starts with an empty database , all data is lost when closing.
