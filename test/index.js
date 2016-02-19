@@ -12,11 +12,11 @@ testDB.start()
                 .then(function (data) {
                     console.log('Stopped Neo4j Test DB', data)
                 })
-                .catch(function (e) {
-                    console.error(e)
+                .catch(function (err) {
+                    throw err
                 })
         }, 2000)
     })
-    .catch(function (e) {
-        console.error(e)
+    .catch(function (err) {
+        throw err
     })
