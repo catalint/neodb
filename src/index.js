@@ -32,9 +32,16 @@ class NeoTestDBPrivate {
         return Fs.readFileSync(location).toString();
     }
 
-    getServerPopertiesLocation() {
+    getServerPropertiesLocation() {
 
-        return this.getServerLocation() + '/conf/neo4j-server.properties';
+        let location;
+        if (this.version === '3.0.0') {
+            location = this.getServerLocation() + '/conf/neo4j.conf';
+        }
+        else {
+            location = this.getServerLocation() + '/conf/neo4j-server.properties';
+        }
+        return location;
     }
 
     getServerBin() {
@@ -54,9 +61,11 @@ class NeoTestDBPrivate {
 
     setProperty(name, value) {
 
-        const location = this.getServerPopertiesLocation();
+        const location = this.getServerPropertiesLocation();
         const regex = new RegExp(`${this.escapeRegExp(name)}=.*`);
         let properties = this.readFile(location);
+        properties = properties.replace(`#${name}`, name);
+        properties = properties.replace(`# ${name}`, name);
         properties = properties.replace(regex, `${name}=${value}`);
         Fs.writeFileSync(location, properties);
     }
@@ -84,7 +93,12 @@ class NeoTestDBPrivate {
 
     cleanup() {
 
-        this.deleteFolderRecursive(this.getServerLocation() + '/' + this.getDBLocation());
+        if (this.version === '3.0.0') {
+            this.deleteFolderRecursive(this.getServerLocation() + '/data/databases/' + this.getDBLocation());
+        }
+        else {
+            this.deleteFolderRecursive(this.getServerLocation() + '/' + this.getDBLocation());
+        }
     }
 
     stop() {
@@ -109,10 +123,14 @@ class NeoTestDBPrivate {
             throw message;
         }
         const data = { pid: this.instance.pid, port: this.port, url: this.getURL() };
-        if (message.indexOf('Remote interface ready and available') !== -1) {
+        if (this.version === '3.0.0') {
+            data.boltPort = this.boltPort;
+            data.boltURL = this.getBoltURL();
+        }
+        if (message.indexOf('Remote interface ready and available') !== -1 || message.indexOf('Remote interface available') !== -1) {
             this.resolve(data);
         }
-        if (message.indexOf('Successfully shutdown database') !== -1) {
+        if (message.indexOf('Successfully shutdown database') !== -1 || message.indexOf('Stopped.') !== -1) {
             this.resolve(data);
         }
     }
@@ -126,7 +144,7 @@ class NeoTestDBPrivate {
 
 class NeoTestBD extends NeoTestDBPrivate {
 
-    constructor(port, version) {
+    constructor(port, version, boltPort) {
 
         super();
         if (version === undefined) {
@@ -136,8 +154,15 @@ class NeoTestBD extends NeoTestDBPrivate {
             throw new Error('NeoTestBD port is required');
         }
         this.setVersion(version);
-        this.setProperty('org.neo4j.server.webserver.https.enabled', 'false');
+        if (this.version === '3.0.0') {
+            this.setProperty('dbms.connector.https.enabled', 'false');
+        }
+        else {
+            this.setProperty('org.neo4j.server.webserver.https.enabled', 'false');
+        }
+
         this.setPort(port);
+        this.setBoltPort(boltPort);
     }
 
     setVersion(version) {
@@ -145,12 +170,31 @@ class NeoTestBD extends NeoTestDBPrivate {
         this.version = version;
     }
 
+    setBoltPort(bolPort) {
+
+        if (this.version === '3.0.0') {
+            this.boltPort = bolPort || 6365;
+            this.setProperty('dbms.connector.bolt.address', `127.0.0.1:${this.boltPort}`);
+        }
+    }
+
     setPort(port) {
 
         this.port = port || 6363;
-        this.setProperty('org.neo4j.server.webserver.port', port);
-        this.setProperty('org.neo4j.server.database.location', this.getDBLocation());
+        if (this.version === '3.0.0') {
+            this.setProperty('dbms.connector.http.address', `127.0.0.1:${this.port}`);
+            this.setProperty('dbms.active_database', this.getDBLocation());
+        }
+        else {
+            this.setProperty('org.neo4j.server.webserver.port', this.port);
+            this.setProperty('org.neo4j.server.database.location', this.getDBLocation());
+        }
 
+    }
+
+    getBoltURL() {
+
+        return `bolt://127.0.0.1:${this.boltPort}`;
     }
 
     getURL() {

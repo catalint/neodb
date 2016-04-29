@@ -3,9 +3,11 @@
 const Lab = require('lab');
 const lab = exports.lab = Lab.script();
 const Co = require('co');
+const Code = require('code');
 
 const it = lab.it;
 const describe = lab.describe;
+const expect = Code.expect;
 
 const NeoTestDB = require('../src');
 
@@ -18,6 +20,9 @@ describe('2.3.1', () => {
         return Co(function*() {
 
             const dbInfo = yield db.start();
+
+            expect(dbInfo.port).to.be.equal(6363);
+            expect(dbInfo.url).to.be.equal('http://localhost:6363');
         });
     });
 
@@ -39,10 +44,40 @@ describe('2.3.3', () => {
         return Co(function*() {
 
             const dbInfo = yield db.start();
+
+            expect(dbInfo.port).to.be.equal(6363);
+            expect(dbInfo.url).to.be.equal('http://localhost:6363');
         });
     });
 
     it('should stop a temporary db 2.3.3', () => {
+
+        return Co(function*() {
+
+            yield db.stop();
+        });
+    });
+
+});
+
+describe('3.0.0', () => {
+
+    const db = new NeoTestDB(6363, '3.0.0', 6364);
+    it('should start a temporary db 3.0.0', () => {
+
+        return Co(function*() {
+
+            const dbInfo = yield db.start();
+
+            expect(dbInfo.port).to.be.equal(6363);
+            expect(dbInfo.url).to.be.equal('http://localhost:6363');
+
+            expect(dbInfo.boltPort).to.be.equal(6364);
+            expect(dbInfo.boltURL).to.be.equal('bolt://127.0.0.1:6364');
+        });
+    });
+
+    it('should stop a temporary db 3.0.0', () => {
 
         return Co(function*() {
 

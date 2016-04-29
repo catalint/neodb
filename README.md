@@ -10,11 +10,17 @@ Why do you I need it?
 It's here if you want to test nodejs neo4j integrations
 
 
-Neo4j 2.3.1
+Neo4j setup
 ----------
-This module includes binaries to start neo4j, you’ll need Java installed on your computer.
+This module includes binaries to start neo4j, you’ll only need Java installed on your computer.
 
 Usually you already have Java installed, if not we recommend that you install [OpenJDK 8 (preferred) or 7](http://openjdk.java.net/) or [Oracle Java 8 (preferred) or 7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+
+Supported neo4j versions
+----
+- 2.3.1
+- 2.3.3
+- 3.0.0 with new bolt connection
 
 Supported OS
 ----------
@@ -31,7 +37,7 @@ Usage
 
 let NeoTestDB = require('neodb')
 
-let testDB = new NeoTestDB(6363)
+let testDB = new NeoTestDB(6363, '2.3.1') // port, version, boltPort
 
 testDB.start()
     .then(function (data) {
@@ -51,7 +57,13 @@ testDB.start()
     })
 ```
 
-It always starts with an empty database , all data is lost when closing.
+It always starts with an empty database.
+
+when calling `.start()` you will get an Promise object that when resolved will have the following keys
+- `port`, ex. 6363
+- `url`, ex. http://localhost:6363
+- `boltPort`, ex. 6364
+- `boltURL`, ex. bolt://127.0.0.1:6364
 
 Learn more
 ----------
