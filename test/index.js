@@ -1,22 +1,55 @@
-"use strict"
+'use strict';
 
-let NeoTestDB = require('../src')
+const Lab = require('lab');
+const lab = exports.lab = Lab.script();
+const Co = require('co');
 
-let testDB = new NeoTestDB(6363)
+const it = lab.it;
+const describe = lab.describe;
 
-testDB.start()
-    .then(function (data) {
-        console.log('Started Neo4j Test DB', data)
-        setTimeout(function () {
-            testDB.stop()
-                .then(function (data) {
-                    console.log('Stopped Neo4j Test DB', data)
-                })
-                .catch(function (err) {
-                    throw err
-                })
-        }, 2000)
-    })
-    .catch(function (err) {
-        throw err
-    })
+const NeoTestDB = require('../src');
+
+
+describe('2.3.1', () => {
+
+    const db = new NeoTestDB(6363, '2.3.1');
+    it('should start a temporary db 2.3.1', () => {
+
+        return Co(function*() {
+
+            const dbInfo = yield db.start();
+            console.log(dbInfo);
+        });
+    });
+
+    it('should stop a temporary db 2.3.1', () => {
+
+        return Co(function*() {
+
+            yield db.stop();
+        });
+    });
+
+});
+
+describe('2.3.3', () => {
+
+    const db = new NeoTestDB(6363, '2.3.3');
+    it('should start a temporary db 2.3.3', () => {
+
+        return Co(function*() {
+
+            const dbInfo = yield db.start();
+            console.log(dbInfo);
+        });
+    });
+
+    it('should stop a temporary db 2.3.3', () => {
+
+        return Co(function*() {
+
+            yield db.stop();
+        });
+    });
+
+});

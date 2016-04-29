@@ -1,137 +1,173 @@
-"use strict"
-let path = require('path')
-let fs = require('fs')
+'use strict';
+
+const Path = require('path');
+const Fs = require('fs');
+
 class NeoTestDBPrivate {
-    deleteFolderRecursive(dirnName) {
-        dirnName = path.resolve(dirnName)
-        let safePath = path.resolve(__dirname, '../')
-        if (dirnName.indexOf(safePath) === -1) {
-            throw new Error(`trying to delete outside safe path ${safePath}`)
+
+    deleteFolderRecursive(dirName) {
+
+        dirName = Path.resolve(dirName);
+        const safePath = Path.resolve(__dirname, '../');
+        if (dirName.indexOf(safePath) === -1) {
+            throw new Error(`trying to delete outside safe path ${safePath}`);
         }
-        if (fs.existsSync(dirnName)) {
-            fs.readdirSync(dirnName).forEach((file) => {
-                var curPath = dirnName + "/" + file;
-                if (fs.lstatSync(curPath).isDirectory()) { // recurse
+        if (Fs.existsSync(dirName)) {
+            Fs.readdirSync(dirName).forEach((file) => {
+
+                const curPath = dirName + '/' + file;
+                if (Fs.lstatSync(curPath).isDirectory()) { // recurse
                     this.deleteFolderRecursive(curPath);
-                } else { // delete file
-                    fs.unlinkSync(curPath);
+                }
+                else { // delete file
+                    Fs.unlinkSync(curPath);
                 }
             });
-            fs.rmdirSync(dirnName);
+            Fs.rmdirSync(dirName);
         }
     }
 
     readFile(location) {
-        return fs.readFileSync(location).toString()
+
+        return Fs.readFileSync(location).toString();
     }
 
     getServerPopertiesLocation() {
-        return this.getServerLocation() + '/conf/neo4j-server.properties'
+
+        return this.getServerLocation() + '/conf/neo4j-server.properties';
     }
 
     getServerBin() {
-        return this.getServerLocation() + '/bin/neo4j'
+
+        return this.getServerLocation() + '/bin/neo4j';
     }
 
     getServerLocation() {
-        return path.resolve(__dirname, '../bin/neo4j-community-2.3.1')
+
+        return Path.resolve(__dirname, `../bin/neo4j-community-${this.version}`);
     }
 
     escapeRegExp(str) {
-        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
     }
 
     setProperty(name, value) {
-        let location = this.getServerPopertiesLocation()
-        let properties = this.readFile(location)
-        let regex = new RegExp(`${this.escapeRegExp(name)}=.*`)
-        properties = properties.replace(regex, `${name}=${value}`)
-        fs.writeFileSync(location, properties)
+
+        const location = this.getServerPopertiesLocation();
+        const regex = new RegExp(`${this.escapeRegExp(name)}=.*`);
+        let properties = this.readFile(location);
+        properties = properties.replace(regex, `${name}=${value}`);
+        Fs.writeFileSync(location, properties);
     }
 
     start() {
-        return new Promise((resolve)=> {
-            this.resolve = resolve
-            this.cleanup()
-            this.instance = require('child_process').spawn(this.getServerBin(), ['console'])
-            this.instance.on('close', this.instanceClosed.bind(this))
-            this.instance.stdout.on('data', this.instanceData.bind(this))
-            this.instance.stderr.on('data', this.instanceError.bind(this))
-            this.instance.stdin.end()
-            process.on('exit', this.stop.bind(this))
-        })
+
+        return new Promise((resolve) => {
+
+            this.resolve = resolve;
+            this.cleanup();
+            this.instance = require('child_process').spawn(this.getServerBin(), ['console']);
+            this.instance.on('close', this.instanceClosed.bind(this));
+            this.instance.stdout.on('data', this.instanceData.bind(this));
+            this.instance.stderr.on('data', this.instanceError.bind(this));
+            this.instance.stdin.end();
+            process.on('exit', this.stop.bind(this));
+        });
 
     }
 
     getDBLocation() {
-        return `data/graph.db.${this.port}`
+
+        return `data/graph.db.${this.port}`;
     }
 
     cleanup() {
-        this.deleteFolderRecursive(this.getServerLocation() + '/' + this.getDBLocation())
+
+        this.deleteFolderRecursive(this.getServerLocation() + '/' + this.getDBLocation());
     }
 
     stop() {
-        return new Promise((resolve)=> {
-            this.resolve = resolve
-            this.instance.kill('SIGHUP')
-        })
+
+        return new Promise((resolve) => {
+
+            this.resolve = resolve;
+            this.instance.kill('SIGHUP');
+        });
     }
 
     instanceError(message) {
-        message = message.toString()
-        throw message
+
+        message = message.toString();
+        throw message;
     }
 
     instanceData(message) {
-        message = message.toString()
+
+        message = message.toString();
         if (message.indexOf(' ERROR ') !== -1) {
-            throw message
+            throw message;
         }
-        let data = {pid: this.instance.pid, port: this.port, url: this.getURL()}
-        if (message.indexOf("Remote interface ready and available") !== -1) {
-            this.resolve(data)
+        const data = { pid: this.instance.pid, port: this.port, url: this.getURL() };
+        if (message.indexOf('Remote interface ready and available') !== -1) {
+            this.resolve(data);
         }
-        if (message.indexOf("Successfully shutdown database") !== -1) {
-            this.resolve(data)
+        if (message.indexOf('Successfully shutdown database') !== -1) {
+            this.resolve(data);
         }
     }
 
     instanceClosed() {
-        this.cleanup()
+
+        this.cleanup();
     }
 
 }
 
 class NeoTestBD extends NeoTestDBPrivate {
-    constructor(port) {
-        super()
-        if (port === undefined) {
-            throw new Error("NeoTestBD port is required")
+
+    constructor(port, version) {
+
+        super();
+        if (version === undefined) {
+            version = '2.3.1';
         }
-        this.setProperty('org.neo4j.server.webserver.https.enabled', 'false')
-        this.setPort(port)
+        if (port === undefined) {
+            throw new Error('NeoTestBD port is required');
+        }
+        this.setVersion(version);
+        this.setProperty('org.neo4j.server.webserver.https.enabled', 'false');
+        this.setPort(port);
+    }
+
+    setVersion(version) {
+
+        this.version = version;
     }
 
     setPort(port) {
-        this.port = port || 6363
-        this.setProperty('org.neo4j.server.webserver.port', port)
-        this.setProperty('org.neo4j.server.database.location', this.getDBLocation())
+
+        this.port = port || 6363;
+        this.setProperty('org.neo4j.server.webserver.port', port);
+        this.setProperty('org.neo4j.server.database.location', this.getDBLocation());
 
     }
 
     getURL() {
-        return `http://localhost:${this.port}`
+
+        return `http://localhost:${this.port}`;
     }
 
     start() {
-        return super.start()
+
+        return super.start();
     }
 
     stop() {
-        return super.stop()
+
+        return super.stop();
     }
 }
 
 
-module.exports = NeoTestBD
+module.exports = NeoTestBD;
