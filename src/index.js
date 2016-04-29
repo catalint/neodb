@@ -122,7 +122,7 @@ class NeoTestDBPrivate {
         if (message.indexOf(' ERROR ') !== -1) {
             throw message;
         }
-        const data = { pid: this.instance.pid, port: this.port, url: this.getURL() };
+        const data = { version: this.version, pid: this.instance.pid, port: this.port, url: this.getURL() };
         if (this.version === '3.0.0') {
             data.boltPort = this.boltPort;
             data.boltURL = this.getBoltURL();

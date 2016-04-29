@@ -60,10 +60,11 @@ testDB.start()
 It always starts with an empty database.
 
 when calling `.start()` you will get an Promise object that when resolved will have the following keys
-- `port`, ex. 6363
-- `url`, ex. http://localhost:6363
-- `boltPort`, ex. 6364
-- `boltURL`, ex. bolt://127.0.0.1:6364
+- `version`, running Neo4j version ex. 2.3.1
+- `port`, http port ex. 6363
+- `url`, http url ex. http://localhost:6363
+- `boltPort`, bolt port ex. 6364
+- `boltURL`, bolt url ex. bolt://127.0.0.1:6364
 
 Learn more
 ----------

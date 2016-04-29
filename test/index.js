@@ -12,6 +12,32 @@ const expect = Code.expect;
 const NeoTestDB = require('../src');
 
 
+describe('default', () => {
+
+    const db = new NeoTestDB(6363);
+    it('should start a temporary db default', () => {
+
+        return Co(function*() {
+
+            const dbInfo = yield db.start();
+
+            expect(dbInfo.version).to.be.equal('2.3.1');
+            expect(dbInfo.port).to.be.equal(6363);
+            expect(dbInfo.url).to.be.equal('http://localhost:6363');
+        });
+    });
+
+    it('should stop a temporary db default', () => {
+
+        return Co(function*() {
+
+            yield db.stop();
+        });
+    });
+
+});
+
+
 describe('2.3.1', () => {
 
     const db = new NeoTestDB(6363, '2.3.1');
@@ -21,6 +47,7 @@ describe('2.3.1', () => {
 
             const dbInfo = yield db.start();
 
+            expect(dbInfo.version).to.be.equal('2.3.1');
             expect(dbInfo.port).to.be.equal(6363);
             expect(dbInfo.url).to.be.equal('http://localhost:6363');
         });
@@ -45,6 +72,7 @@ describe('2.3.3', () => {
 
             const dbInfo = yield db.start();
 
+            expect(dbInfo.version).to.be.equal('2.3.3');
             expect(dbInfo.port).to.be.equal(6363);
             expect(dbInfo.url).to.be.equal('http://localhost:6363');
         });
@@ -69,6 +97,7 @@ describe('3.0.0', () => {
 
             const dbInfo = yield db.start();
 
+            expect(dbInfo.version).to.be.equal('3.0.0');
             expect(dbInfo.port).to.be.equal(6363);
             expect(dbInfo.url).to.be.equal('http://localhost:6363');
 
