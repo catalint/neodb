@@ -1,0 +1,94 @@
+----------------------------------------------------------------------------
+
+
+Upgrading
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+Table of Contents
+
+1. Supported upgrade paths
+2. Upgrade instructions
+
+This section describes upgrading a single Neo4j instance. To upgrade a Neo4j HA 
+cluster (Neo4j Enterprise), a very specific procedure must be followed. Please 
+see Upgrade of a Neo4j HA Cluster at
+<http://neo4j.com/docs/3.0.0/ha-upgrade-guide.html> .
+
+Throughout this instruction, the files used to store the Neo4j data are 
+referred to as database files. These files is are found in the directory 
+specified by dbms.directories.data in neo4j.conf.
+
+
+    Disk space requirements
+
+    An upgrade requires substantial free disk space, as it makes an entire copy
+    of the database. The upgraded database may also require larger data files
+    overall.
+
+    It is recommended to make available an extra 50% disk space on top of the
+    existing database files.
+
+    In addition to this, don’t forget to reserve the disk space needed for the
+    pre-upgrade backup.
+
+----------------------------------------------------------------------------
+
+
+1. Supported upgrade paths
+
+----------------------------------------------------------------------------
+
+Before upgrading to a new major or minor release, the database must first be 
+upgraded to the latest version within the relevant release. The latest version 
+is available at this page:<http://neo4j.com/download/other-releases> . The 
+following Neo4j upgrade paths are supported:
+
+    * 2.0.latest --> 3.0.0
+    * 2.1.latest --> 3.0.0
+    * 2.2.latest --> 3.0.0
+    * 2.3.any --> 3.0.0
+----------------------------------------------------------------------------
+
+
+2. Upgrade instructions
+
+----------------------------------------------------------------------------
+   1. Cleanly shut down the database if it is running.
+   2. Make a backup copy of the database files. If using the online backup tool
+      (see<http://neo4j.com/docs/3.0.0/operations-backup.html> ) available with
+      Neo4j Enterprise, ensure that backups have completed successfully.
+   3. Install Neo4j 3.0.0.
+   4. Review the settings in the configuration files in the previous
+      installation, and transfer any custom settings to the 3.0.0 installation.
+      Since many settings have been changed between Neo4j 2.x and Neo4j 3.0, it
+      is advisable to use the config-migrator to migrate the config files for
+      you. The config-migrator can be found in the tools directory, and can be
+      invoked with a command like: java -jar config-migrator.jar
+      path/to/neo4j2.3 path/to/neo4j3.0. Take note of any warnings printed, and
+      manually review the edited config files produced.
+   5. Import your data from the old installation using neo4j-admin import
+      --mode=database --database=<database-name> --from=<source-directory> 
+      (for details, see the man page at<http://neo4j.com/docs/3.0.0/re02.html> 
+      ).
+   6. If the database is not called graph.db, set dbms.active_database in 
+      neo4j.conf to the name of the database.
+   7. Set dbms.allow_format_migration=true in neo4j.conf of the 3.0.0
+      installation. Neo4j will fail to start without this configuration.
+   8. Start up Neo4j 3.0.0.
+   9. The database upgrade will take place during startup.
+  10. Information about the upgrade and a progress indicator are logged into 
+      debug.log.
+  11. When upgrade has finished, the dbms.allow_format_migration should be set
+      to false or be removed.
+  12. It is good practice to make a full backup immediately after the upgrade.
+
+
+    Cypher compatibility
+
+    The Cypher language may evolve between Neo4j versions. For backward
+    compatibility, Neo4j provides directives which allow explicitly selecting a
+    previous Cypher language version. This is possible to do globally or for
+    individual statements, as described in the Cypher Compatibility section at
+    <http://neo4j.com/docs/3.0.0/cypher-compatibility.html> .
