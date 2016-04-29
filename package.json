@@ -4,9 +4,9 @@
   "description": "Creates a temporary neo4j db listening on :port",
   "main": "src/index.js",
   "scripts": {
-    "test": "node node_modules/lab/bin/lab -m 10000 -t 90 -L -v",
-    "test-cov": "node node_modules/lab/bin/lab -m 10000 -t 90 -r lcov",
-    "test-cov-html": "node node_modules/lab/bin/lab -m 10000 -t 90 -r html -o coverage.html"
+    "test": "node node_modules/lab/bin/lab -m 30000 -t 90 -L -v",
+    "test-cov": "node node_modules/lab/bin/lab -m 30000 -t 90 -r lcov",
+    "test-cov-html": "node node_modules/lab/bin/lab -m 30000 -t 90 -r html -o coverage.html"
   },
   "author": "Catalin Tanasescu <catalint@gmail.com>",
   "engines": {

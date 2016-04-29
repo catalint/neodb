@@ -18,7 +18,6 @@ describe('2.3.1', () => {
         return Co(function*() {
 
             const dbInfo = yield db.start();
-            console.log(dbInfo);
         });
     });
 
@@ -40,7 +39,6 @@ describe('2.3.3', () => {
         return Co(function*() {
 
             const dbInfo = yield db.start();
-            console.log(dbInfo);
         });
     });
 
