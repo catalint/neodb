@@ -156,6 +156,7 @@ class NeoTestBD extends NeoTestDBPrivate {
         this.setVersion(version);
         if (this.version === '3.0.0') {
             this.setProperty('dbms.connector.https.enabled', 'false');
+            this.setProperty('dbms.security.auth_enabled', 'false');
         }
         else {
             this.setProperty('org.neo4j.server.webserver.https.enabled', 'false');
