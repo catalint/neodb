@@ -1,7 +1,9 @@
 language: node_js
 
-jdk:
-  - openjdk8
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 
 node_js:
   - 4
