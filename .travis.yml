@@ -14,4 +14,8 @@ before_install:
   - PATH=$JAVA_HOME/bin:$PATH
   - java -version
 
+scripts:
+  - npm test
+  - cat /home/travis/build/catalint/neodb/bin/neo4j-community-3.0.0/logs/debug.log
+
 sudo: false
