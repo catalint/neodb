@@ -112,6 +112,7 @@ class NeoTestDBPrivate {
 
     instanceError(message) {
 
+        console.log(message);
         message = message.toString();
         throw message;
     }
