@@ -102,7 +102,7 @@ describe('3.0.0', () => {
             expect(dbInfo.url).to.be.equal('http://localhost:6363');
 
             expect(dbInfo.boltPort).to.be.equal(6364);
-            expect(dbInfo.boltURL).to.be.equal('bolt://127.0.0.1:6364');
+            expect(dbInfo.boltURL).to.be.equal('bolt://localhost:6364');
         });
     });
 

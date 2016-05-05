@@ -176,7 +176,7 @@ class NeoTestBD extends NeoTestDBPrivate {
 
         if (this.version === '3.0.0') {
             this.boltPort = bolPort || 6365;
-            this.setProperty('dbms.connector.bolt.address', `127.0.0.1:${this.boltPort}`);
+            this.setProperty('dbms.connector.bolt.address', `localhost:${this.boltPort}`);
         }
     }
 
@@ -184,7 +184,7 @@ class NeoTestBD extends NeoTestDBPrivate {
 
         this.port = port || 6363;
         if (this.version === '3.0.0') {
-            this.setProperty('dbms.connector.http.address', `127.0.0.1:${this.port}`);
+            this.setProperty('dbms.connector.http.address', `localhost:${this.port}`);
             this.setProperty('dbms.active_database', this.getDBLocation());
         }
         else {
@@ -196,7 +196,7 @@ class NeoTestBD extends NeoTestDBPrivate {
 
     getBoltURL() {
 
-        return `bolt://127.0.0.1:${this.boltPort}`;
+        return `bolt://localhost:${this.boltPort}`;
     }
 
     getURL() {
