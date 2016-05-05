@@ -5,6 +5,9 @@ addons:
     packages:
       - oracle-java8-installer
 
+script:
+  - jdk_switcher use oraclejdk8
+
 node_js:
   - 4
   - 5
