@@ -1,17 +1,19 @@
 language: node_js
 
+node_js:
+  - 4
+  - 5
+
+env:
+  - JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - PATH=$JAVA_HOME/bin:$PATH
+
 addons:
   apt:
     packages:
       - oracle-java8-installer
 
-script:
-  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - export PATH=$JAVA_HOME/bin:$PATH
-  - npm test
-
-node_js:
-  - 4
-  - 5
+before_install:
+  - java -version
 
 sudo: false
