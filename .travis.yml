@@ -6,11 +6,12 @@ addons:
       - oracle-java8-installer
 
 script:
-  - jdk_switcher use oraclejdk8
+  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - export PATH=$JAVA_HOME/bin:$PATH
+  - java -version
 
 node_js:
   - 4
   - 5
-
 
 sudo: false
