@@ -4,16 +4,14 @@ node_js:
   - 4
   - 5
 
-env:
-  - JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - PATH=$JAVA_HOME/bin:$PATH
-
 addons:
   apt:
     packages:
       - oracle-java8-installer
 
 before_install:
+  - JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - PATH=$JAVA_HOME/bin:$PATH
   - java -version
 
 sudo: false
