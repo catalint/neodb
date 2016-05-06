@@ -1,20 +1,10 @@
 language: node_js
-dist: trusty
+#dist: trusty
 sudo: required
 
 node_js:
   - 4
   - 6
-
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
-
-before_install:
-  - JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre
-  - PATH=$JAVA_HOME/bin:$PATH
-  - java -version
 
 after_failure:
   - pwd
