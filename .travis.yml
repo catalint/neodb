@@ -15,6 +15,6 @@ before_install:
   - java -version
 
 after_failure:
-  - cat /home/travis/build/catalint/neodb/bin/neo4j-community-3.0.0/logs/*
+  - cat bin/neo4j-community-3.0.0/logs/*
 
 sudo: false
