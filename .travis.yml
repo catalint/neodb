@@ -1,5 +1,6 @@
 language: node_js
 dist: trusty
+sudo: required
 
 node_js:
   - 4
@@ -19,4 +20,3 @@ after_failure:
   - pwd
   - find bin -type f -name "*.log*" -exec cat {} \;
 
-sudo: false
