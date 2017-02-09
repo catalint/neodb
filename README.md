@@ -2,6 +2,8 @@
 
 What does this do?
 =======================================
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/catalint/neodb.svg)](https://greenkeeper.io/)
 Creates a temporary neo4j db listening on `http://localhost:port`
 
 
