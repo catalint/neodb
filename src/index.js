@@ -44,10 +44,15 @@ class NeoTestDBPrivate {
         return location;
     }
 
+    isWin() {
+
+        return this.version.match(/win/);
+    }
+
     getServerBin() {
 
         let cmd = 'neo4j';
-        if (this.version.match(/win/)) {
+        if (this.isWin()) {
             cmd = 'neo4j.bat';
         }
         return this.getServerLocation() + `/bin/${cmd}`;
@@ -78,9 +83,13 @@ class NeoTestDBPrivate {
 
         return new Promise((resolve) => {
 
+            let options = undefined;
+            if (this.isWin()) {
+                options = { shell: true };
+            }
             this.resolve = resolve;
             this.cleanup();
-            this.instance = require('child_process').spawn(this.getServerBin(), ['console']);
+            this.instance = require('child_process').spawn(this.getServerBin(), ['console'], options);
             this.instance.on('close', this.instanceClosed.bind(this));
             this.instance.stdout.on('data', this.instanceData.bind(this));
             this.instance.stderr.on('data', this.instanceError.bind(this));
@@ -110,7 +119,13 @@ class NeoTestDBPrivate {
         return new Promise((resolve) => {
 
             this.resolve = resolve;
-            this.instance.kill('SIGHUP');
+
+            if (this.isWin()) {
+                this.instance.kill('SIGTERM');
+            }
+            else {
+                this.instance.kill('SIGHUP');
+            }
         });
     }
 
@@ -123,7 +138,7 @@ class NeoTestDBPrivate {
     instanceData(message) {
 
         message = message.toString();
-        console.log(message);
+
         if (message.indexOf(' ERROR ') !== -1) {
             throw message;
         }
