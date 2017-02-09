@@ -18,14 +18,12 @@ Usually you already have Java installed, if not we recommend that you install [O
 
 Supported neo4j versions
 ----
-- 2.3.1
 - 2.3.3
-- 3.0.0 with new bolt connection
-- 3.1.1 with new bolt connection (* only one for windows)
+- 3.1.1 with new bolt connection
 
 Supported OS
 ----------
-osx, linux, windows
+osx, linux
 
 Install
 ----------
@@ -38,7 +36,7 @@ Usage
 
 let NeoTestDB = require('neodb')
 
-let testDB = new NeoTestDB(6363, '2.3.1') // port, version, boltPort
+let testDB = new NeoTestDB(6363, '2.3.3') // port, version, boltPort
 
 testDB.start()
     .then(function (data) {
@@ -61,7 +59,7 @@ testDB.start()
 It always starts with an empty database.
 
 when calling `.start()` you will get an Promise object that when resolved will have the following keys
-- `version`, running Neo4j version ex. 2.3.1
+- `version`, running Neo4j version ex. 2.3.3
 - `port`, http port ex. 6363
 - `url`, http url ex. http://localhost:6363
 - `boltPort`, bolt port ex. 6364

@@ -168,7 +168,7 @@ class NeoTestBD extends NeoTestDBPrivate {
 
         super();
         if (version === undefined) {
-            version = '2.3.1';
+            version = '2.3.3';
         }
         if (port === undefined) {
             throw new Error('NeoTestBD port is required');
