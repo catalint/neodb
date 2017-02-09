@@ -21,10 +21,11 @@ Supported neo4j versions
 - 2.3.1
 - 2.3.3
 - 3.0.0 with new bolt connection
+- 3.1.1 with new bolt connection (* only one for windows)
 
 Supported OS
 ----------
-osx, linux
+osx, linux, windows
 
 Install
 ----------

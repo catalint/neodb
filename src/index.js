@@ -35,7 +35,7 @@ class NeoTestDBPrivate {
     getServerPropertiesLocation() {
 
         let location;
-        if (this.version === '3.0.0') {
+        if (this.version[0] === '3') {
             location = this.getServerLocation() + '/conf/neo4j.conf';
         }
         else {
@@ -46,7 +46,11 @@ class NeoTestDBPrivate {
 
     getServerBin() {
 
-        return this.getServerLocation() + '/bin/neo4j';
+        let cmd = 'neo4j';
+        if (this.version.match(/win/)) {
+            cmd = 'neo4j.bat';
+        }
+        return this.getServerLocation() + `/bin/${cmd}`;
     }
 
     getServerLocation() {
@@ -93,7 +97,7 @@ class NeoTestDBPrivate {
 
     cleanup() {
 
-        if (this.version === '3.0.0') {
+        if (this.version[0] === '3') {
             this.deleteFolderRecursive(this.getServerLocation() + '/data/databases/' + this.getDBLocation());
         }
         else {
@@ -119,11 +123,12 @@ class NeoTestDBPrivate {
     instanceData(message) {
 
         message = message.toString();
+        console.log(message);
         if (message.indexOf(' ERROR ') !== -1) {
             throw message;
         }
         const data = { version: this.version, pid: this.instance.pid, port: this.port, url: this.getURL() };
-        if (this.version === '3.0.0') {
+        if (this.version[0] === '3') {
             data.boltPort = this.boltPort;
             data.boltURL = this.getBoltURL();
         }
@@ -154,7 +159,7 @@ class NeoTestBD extends NeoTestDBPrivate {
             throw new Error('NeoTestBD port is required');
         }
         this.setVersion(version);
-        if (this.version === '3.0.0') {
+        if (this.version[0] === '3') {
             this.setProperty('dbms.connector.https.enabled', 'false');
             this.setProperty('dbms.security.auth_enabled', 'false');
         }
@@ -173,17 +178,19 @@ class NeoTestBD extends NeoTestDBPrivate {
 
     setBoltPort(bolPort) {
 
-        if (this.version === '3.0.0') {
+        if (this.version[0] === '3') {
             this.boltPort = bolPort || 6365;
             this.setProperty('dbms.connector.bolt.address', `localhost:${this.boltPort}`);
+            this.setProperty('dbms.connector.bolt.listen_address', `:${this.boltPort}`);
         }
     }
 
     setPort(port) {
 
         this.port = port || 6363;
-        if (this.version === '3.0.0') {
+        if (this.version[0] === '3') {
             this.setProperty('dbms.connector.http.address', `localhost:${this.port}`);
+            this.setProperty('dbms.connector.http.listen_address', `:${this.port}`);
             this.setProperty('dbms.active_database', this.getDBLocation());
         }
         else {

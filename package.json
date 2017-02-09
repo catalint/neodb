@@ -1,10 +1,10 @@
 {
   "name": "neodb",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Creates a temporary neo4j db listening on :port",
   "main": "src/index.js",
   "scripts": {
-    "test": "node node_modules/lab/bin/lab -m 30000 -t 90 -L -v",
+    "test": "node node_modules/lab/bin/lab -m 30000 -t 10 -L -v",
     "test-cov": "node node_modules/lab/bin/lab -m 30000 -t 90 -r lcov",
     "test-cov-html": "node node_modules/lab/bin/lab -m 30000 -t 90 -r html -o coverage.html"
   },
