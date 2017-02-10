@@ -89,7 +89,12 @@ class NeoTestDBPrivate {
             }
             this.resolve = resolve;
             this.cleanup();
-            this.instance = require('child_process').spawn(this.getServerBin(), ['console'], options);
+            try {
+                this.instance = require('child_process').spawn(this.getServerBin(), ['console'], options);
+            } catch (err) {
+                console.log(require('fs').statSync(this.getServerBin()));
+                console.error(this.getServerBin(), err)
+            }
             this.instance.on('close', this.instanceClosed.bind(this));
             this.instance.stdout.on('data', this.instanceData.bind(this));
             this.instance.stderr.on('data', this.instanceError.bind(this));
