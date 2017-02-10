@@ -90,6 +90,7 @@ class NeoTestDBPrivate {
             this.resolve = resolve;
             this.cleanup();
             try {
+                require('fs').chmodSync(this.getServerBin(), '755');
                 this.instance = require('child_process').spawn(this.getServerBin(), ['console'], options);
             }
             catch (err) {
