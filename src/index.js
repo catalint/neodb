@@ -91,9 +91,10 @@ class NeoTestDBPrivate {
             this.cleanup();
             try {
                 this.instance = require('child_process').spawn(this.getServerBin(), ['console'], options);
-            } catch (err) {
+            }
+            catch (err) {
                 console.log(require('fs').statSync(this.getServerBin()));
-                console.error(this.getServerBin(), err)
+                console.error(this.getServerBin(), err);
             }
             this.instance.on('close', this.instanceClosed.bind(this));
             this.instance.stdout.on('data', this.instanceData.bind(this));
