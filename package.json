@@ -10,7 +10,7 @@
   },
   "author": "Catalin Tanasescu <catalint@gmail.com>",
   "engines": {
-    "node": ">4.0.0"
+    "node": ">=8.0.0"
   },
   "license": "GPL-3.0",
   "directories": {
@@ -35,6 +35,6 @@
   "devDependencies": {
     "co": "^4.6.0",
     "code": "^5.0.0",
-    "lab": "^12.0.0"
+    "lab": "^14.3.1"
   }
 }
