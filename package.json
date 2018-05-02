@@ -1,6 +1,6 @@
 {
   "name": "neodb",
-  "version": "2.0.4",
+  "version": "3.0.0",
   "description": "Creates a temporary neo4j db listening on :port",
   "main": "src/index.js",
   "scripts": {
@@ -35,6 +35,6 @@
   "devDependencies": {
     "co": "^4.6.0",
     "code": "^5.2.0",
-    "lab": "^12.0.0"
+    "lab": "^14.3.1"
   }
 }
