@@ -34,7 +34,7 @@
   "homepage": "https://github.com/catalint/neodb#readme",
   "devDependencies": {
     "co": "^4.6.0",
-    "code": "^5.2.0",
+    "code": "^5.2.2",
     "lab": "^15.4.1"
   }
 }
